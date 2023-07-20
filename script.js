@@ -42,9 +42,9 @@ function changePixel(e){
     // let pixelSize = 0;
     console.log(e.target.id);
     if (e.target.id === "trailSizePlus"){
-        currentPixelSize += 20;
+        currentPixelSize += 5;
     } else if (e.target.id === "trailSizeMinus") {
-        currentPixelSize -= 20;
+        currentPixelSize -= 5;
     } else currentPixelSize = 5;
     console.log(currentPixelSize);
 }

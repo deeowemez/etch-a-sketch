@@ -47,6 +47,10 @@ button {
     margin: 0 auto;
 }
 
+.pixel{
+    border-radius: 50%;
+}
+
 /* staged change  */
 /* .pixel {
     width: 5px;
