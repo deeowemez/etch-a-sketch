@@ -1,36 +1,34 @@
 // script.js
 
-do {
-    inputNum = parseInt(prompt("Enter number of square divs in grid: "));
-} while (inputNum > 100)
-
-//initialize grid
-const container = document.querySelector('.container');
-for (let i = 0; i < (inputNum ** 2); i++) {
-    const div = document.createElement('div');
-    div.classList.add('cdiv');
-    div.id = `idiv${i}`;
-    container.appendChild(div);
+function buttonClick(){
+    do {
+        inputNum = parseInt(prompt("Enter number of square divs in grid: "));
+    } while (inputNum > 100);
+    return inputNum;
 }
 
-//initialize dimensions
-const size = ((1265 - (inputNum * 2)) / inputNum);
-const padding = (size / 2);
+function generateDiv(inputNum){
+    const container = document.querySelector('.container');
+    for (let i = 0; i < (inputNum ** 2); i++) {
+        const div = document.createElement('div');
+        div.classList.add('cdiv');
+        div.id = `idiv${i}`;
+        container.appendChild(div);
+    }
+}
 
-// for (let i = 0; i < (inputNum ** 2); i++) {
-//     const divElements = document.querySelectorAll(`#idiv${i}`);
-//     console.log(divElements);
-//     divElements.style.cssText = `max-width: ${size}px; max-height: ${size}px; border: 1px solid black; padding: ${padding}px`;
-// }
+function generateGrid(divElements, size, padding){
+    Array.from(divElements).forEach(div => {
+        div.style.cssText = `box-sizing: border-box; max-width: ${size}px; max-height: ${size}px; border: 5px solid rgb(148,148,148); padding: ${padding}px`;
+    });
+}
 
-// const divElements = document.querySelectorAll('#idiv');
-const divElements = document.getElementsByClassName('cdiv');
-console.log(divElements[0]);
-// divElements[0].addEventListener('mouseover', hoverIn(0));
-
-Array.from(divElements).forEach(div => {
-    div.style.cssText = `box-sizing: border-box; max-width: ${size}px; max-height: ${size}px; border: 1px solid rgb(148,148,148); padding: ${padding}px`;
-});
+function divEventListener(divElements, size, padding){
+    for (let i = 0; i < divElements.length; i++) {
+        divElements[i].addEventListener('mouseover', (e) => hoverIn(e, size, padding));
+        divElements[i].addEventListener('mouseout', (e) => hoverOut(e, size, padding));
+    }
+}
 
 function getRandomColor(){
     const red = Math.floor(Math.random() * 256);
@@ -40,24 +38,30 @@ function getRandomColor(){
     return `rgb(${red}, ${green}, ${blue})`;
 }
 
-function hoverIn(e){
+
+function hoverIn(e, size, padding){
     console.log(e.target.id)    
     const divElement = document.querySelector(`#${e.target.id}`);
     console.log(divElement)
     divElement.style.cssText = `box-sizing: border-box; max-width: ${size}px; max-height: ${size}px; padding: ${padding}px;
-        border: 1px solid ${getRandomColor()} `;    
+        border: 5px solid ${getRandomColor()} `;    
 }
 
-function hoverOut(e){    
+function hoverOut(e, size, padding){    
     const divElement = document.querySelector(`#${e.target.id}`);
     console.log(divElement) 
-    divElement.style.cssText = `box-sizing: border-box; max-width: ${size}px; max-height: ${size}px; border: 1px solid rgb(148,148,148); padding: ${padding}px;`;
+    divElement.style.cssText = `box-sizing: border-box; max-width: ${size}px; max-height: ${size}px; border: 5px solid rgb(148,148,148); padding: ${padding}px;`;
 }
 
-//set hover in and hover out css elements for all grid boxes
-const divIdElements = document.querySelectorAll('#idiv');
-// const divClassElements = document.getElementsByClassName('cdiv');
-for (let i = 0; i < divElements.length; i++) {
-    divElements[i].addEventListener('mouseover', hoverIn);
-    divElements[i].addEventListener('mouseout', hoverOut);
+function newGrid(){
+    const inputNum = buttonClick();
+    const size = ((1265 - (inputNum * 5)) / inputNum); 
+    const padding = (size / 2);
+    generateDiv(inputNum);
+    const divElements = document.getElementsByClassName('cdiv');
+    generateGrid(divElements, size, padding);
+    divEventListener(divElements, size, padding);
 }
+
+const btn = document.querySelector('#btn');
+btn.onclick = () => newGrid();
